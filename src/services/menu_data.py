@@ -1,6 +1,6 @@
 from csv import DictReader
-from src.models.dish import Dish
-from src.models.ingredient import Ingredient
+from models.dish import Dish
+from models.ingredient import Ingredient
 
 
 # Req 3
