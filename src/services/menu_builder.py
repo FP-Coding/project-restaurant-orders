@@ -39,7 +39,9 @@ class MenuBuilder:
         if restriction is not None:
             print(restriction)
             return df.loc[
-                df["restrictions"].apply(lambda x: restriction not in x)
+                df["restrictions"].apply(
+                    lambda restrictions: restriction not in restrictions
+                )
             ]
         else:
             return df
