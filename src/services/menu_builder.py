@@ -33,18 +33,26 @@ class MenuBuilder:
                 "price": dish.price,
                 "restrictions": dish.get_restrictions(),
             }
-            for dish in menu.menu_data.dishes
+            for dish in self.menu_data.dishes
         ]
-        df = pd.DataFrame(dishes)
-        if restriction is not None:
-            print(restriction)
-            return df.loc[
+
+        dishes_available = list(
+            filter(
+                lambda dish: self.inventory.check_recipe_availability(
+                    {ingredient: 1 for ingredient in dish["ingredients"]}
+                ),
+                dishes,
+            )
+        )
+
+        df = pd.DataFrame(dishes_available)
+
+        return (
+            df.loc[
                 df["restrictions"].apply(
                     lambda restrictions: restriction not in restrictions
                 )
             ]
-        else:
-            return df
-
-
-menu = MenuBuilder()
+            if restriction is not None
+            else df
+        )
